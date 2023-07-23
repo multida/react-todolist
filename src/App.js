@@ -1,23 +1,15 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, deleteTodo, toggleTodo } from "./redux/modules/todos";
 import "./App.css";
 
 function App() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [list, setList] = useState([
-    {
-      id: 1,
-      title: "리액트 연습",
-      content: "투두리스트를 만들어보자",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "싱가포르 일정 짜기",
-      content: "노션이나, 엑셀로 공유 파일 만들어 공유하기",
-      completed: false,
-    },
-  ]);
+
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos.todos);
+
   const onChangeTitleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -27,30 +19,24 @@ function App() {
   };
 
   const onClickAddList = () => {
-    console.log(title, content);
-
     const newItem = {
-      id: list.length + 1,
+      id: todos.length + 1,
       title,
       content,
-      completed: false,
     };
 
-    setList((prevList) => [...prevList, newItem]);
+    dispatch(addTodo(newItem.id, newItem.title, newItem.content));
+
     setTitle("");
     setContent("");
   };
 
   const onClickDeleteList = (id) => {
-    setList((prevList) => prevList.filter((item) => item.id !== id));
+    dispatch(deleteTodo(id));
   };
 
   const onClickCompleteList = (id) => {
-    setList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, completed: true } : item
-      )
-    );
+    dispatch(toggleTodo(id));
   };
 
   return (
@@ -76,9 +62,9 @@ function App() {
       </div>
 
       <ul>
-        {list.map(
+        {todos.map(
           (listItem) =>
-            !listItem.completed && (
+            !listItem.isCompleted && (
               <li key={listItem.id}>
                 <div>제목: {listItem.title}</div>
                 <div>내용: {listItem.content}</div>
@@ -96,9 +82,9 @@ function App() {
       <hr />
 
       <ul>
-        {list.map(
+        {todos.map(
           (listItem) =>
-            listItem.completed && (
+            listItem.isCompleted && (
               <li key={listItem.id}>
                 <div>제목: {listItem.title}</div>
                 <div>내용: {listItem.content}</div>
