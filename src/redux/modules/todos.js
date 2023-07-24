@@ -59,7 +59,7 @@ const todos = (state = initialState, action) => {
         ...state,
         todos: state.todos.map((todo) =>
           todo.id === action.payload.id
-            ? { ...todo, isCompleted: !todo.completed }
+            ? { ...todo, isCompleted: !todo.isCompleted }
             : todo
         ),
       };
