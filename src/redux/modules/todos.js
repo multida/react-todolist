@@ -1,6 +1,6 @@
 // 액션 타입 정의
 const ADD_TODO = "todos/ADD_TODO";
-const TOGGLE_TODO = "todos/TOGGLE_TODO";
+const COMPLETED_TODO = "todos/COMPLETED_TODO";
 const DELETE_TODO = "todos/DELETE_TODO";
 
 // 액션 생성 함수
@@ -14,8 +14,8 @@ export const addTodo = (id, title, content) => ({
   },
 });
 
-export const toggleTodo = (id) => ({
-  type: TOGGLE_TODO,
+export const completedTodo = (id) => ({
+  type: COMPLETED_TODO,
   payload: {
     id,
   },
@@ -54,7 +54,7 @@ const todos = (state = initialState, action) => {
         ...state,
         todos: [...state.todos, action.payload],
       };
-    case TOGGLE_TODO:
+    case COMPLETED_TODO:
       return {
         ...state,
         todos: state.todos.map((todo) =>

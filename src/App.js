@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, toggleTodo } from "./redux/modules/todos";
+import { addTodo, deleteTodo, completedTodo } from "./redux/modules/todos";
 import "./App.css";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
   };
 
   const onClickCompleteList = (id) => {
-    dispatch(toggleTodo(id));
+    dispatch(completedTodo(id));
   };
 
   return (
